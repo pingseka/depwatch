@@ -1,0 +1,13 @@
+{
+  "watch_paths": [
+    "/path/to/your/project/requirements.txt",
+    "/path/to/your/project/package.json"
+  ],
+  "check_interval": 3600,
+  "alert_email": "you@example.com",
+  "alert_webhook": "https://hooks.example.com/depwatch",
+  "ignore_packages": [
+    "some-internal-package"
+  ],
+  "severity_threshold": "medium"
+}
