@@ -1,13 +1,15 @@
 {
-  "watch_paths": ["requirements.txt", "pyproject.toml"],
-  "interval": 300,
-  "severity": "low",
-  "notifier": {
-    "method": "webhook",
-    "webhook_url": "https://hooks.example.com/depwatch",
-    "email_to": null,
-    "email_from": null,
-    "smtp_host": "localhost",
-    "smtp_port": 25
+  "dependency_files": ["requirements.txt"],
+  "check_interval": 3600,
+  "severity_threshold": "low",
+  "notifications": {
+    "log": true,
+    "webhook_url": null,
+    "email": null
+  },
+  "reporting": {
+    "enabled": true,
+    "format": "text",
+    "output_dir": "reports"
   }
 }
