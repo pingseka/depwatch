@@ -1,0 +1,22 @@
+{
+  "suppressions": [
+    {
+      "package": "example-pkg",
+      "reason": "Vulnerability does not affect our usage pattern.",
+      "expires": "2025-12-31",
+      "vulnerability_id": "CVE-2023-99999"
+    },
+    {
+      "package": "legacy-lib",
+      "reason": "Scheduled for removal in next sprint; suppressed until then.",
+      "expires": "2025-06-30",
+      "vulnerability_id": null
+    },
+    {
+      "package": "internal-tool",
+      "reason": "Internal package — version pinned intentionally, no public release.",
+      "expires": null,
+      "vulnerability_id": null
+    }
+  ]
+}
