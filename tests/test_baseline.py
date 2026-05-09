@@ -62,6 +62,17 @@ def test_load_baseline_round_trip(tmp_path, scan_result):
     assert names == {"requests", "flask"}
 
 
+def test_load_baseline_preserves_package_fields(tmp_path, scan_result):
+    """Ensure all PackageInfo fields survive a save/load round trip."""
+    path = str(tmp_path / "test.baseline.json")
+    save_baseline(scan_result, DEP_FILE, path=path)
+    loaded = load_baseline(DEP_FILE, path=path)
+    pkg_map = {p.name: p for p in loaded.packages}
+    assert pkg_map["requests"].installed == "2.28.0"
+    assert pkg_map["requests"].latest == "2.31.0"
+    assert pkg_map["flask"].vulnerabilities == ["CVE-2023-0001"]
+
+
 def test_diff_finds_new_outdated(scan_result, baseline_result):
     diff = diff_against_baseline(scan_result, baseline_result)
     names = {p.name for p in diff.packages}
