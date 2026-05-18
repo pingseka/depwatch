@@ -11,6 +11,7 @@ FIXED_NOW = datetime(2024, 6, 1, 12, 0, 0, tzinfo=timezone.utc)
 
 
 def _release(days_ago: int) -> datetime:
+    """Return a UTC datetime that is *days_ago* days before FIXED_NOW."""
     return FIXED_NOW - timedelta(days=days_ago)
 
 
@@ -101,3 +102,22 @@ def test_naive_release_date_treated_as_utc():
     expected_days = (FIXED_NOW - naive_date.replace(tzinfo=timezone.utc)).days
     assert info.age_days == expected_days
     assert info.is_stale is True
+
+
+@pytest.mark.parametrize("days_ago,stale_days,expected_stale", [
+    (0,   365, False),   # released today
+    (364, 365, False),   # one day before boundary
+    (365, 365, True),    # exactly on boundary
+    (366, 365, True),    # one day past boundary
+    (730, 365, True),    # two years old
+])
+def test_stale_boundary_parametrized(days_ago, stale_days, expected_stale):
+    """Parametrized boundary checks to cover edge cases around stale_days."""
+    info = package_age_info(
+        "somepkg", "1.0.0",
+        stale_days=stale_days,
+        _now=FIXED_NOW,
+        _release_date=_release(days_ago),
+    )
+    assert info.is_stale is expected_stale
+    assert info.age_days == days_ago
